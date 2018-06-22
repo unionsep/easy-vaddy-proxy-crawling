@@ -1,0 +1,16 @@
+{
+	"name": "VAddy Easy Proxy Crawling",
+	"description": "VAddyのクロール記録開始/終了時にアクセスするURLを簡略化します。",
+	"version": "1.0",
+	"manifest_version": 2,
+	"options_ui": {
+		"page": "view/options/options.html",
+		"open_in_tab": false
+	},
+	"browser_action": {
+		"default_icon": "img/blue.png"
+	},
+	"background": {
+		"scripts": ["src/lib/jquery-3.3.1.min.js", "src/background.js"]
+	}
+}
