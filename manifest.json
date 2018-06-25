@@ -3,6 +3,7 @@
 	"description": "VAddyのクロール記録開始/終了時にアクセスするURLを簡略化します。",
 	"version": "1.0",
 	"manifest_version": 2,
+	"permissions": ["https://*/*"],
 	"options_ui": {
 		"page": "view/options/options.html",
 		"open_in_tab": false
