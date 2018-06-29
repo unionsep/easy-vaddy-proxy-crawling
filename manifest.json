@@ -1,17 +1,23 @@
 {
-	"name": "VAddy Easy Proxy Crawling",
-	"description": "VAddyのクロール記録開始/終了時にアクセスするURLを簡略化します。",
-	"version": "1.0",
-	"manifest_version": 2,
-	"permissions": ["https://*/*"],
-	"options_ui": {
-		"page": "view/options/options.html",
-		"open_in_tab": false
-	},
-	"browser_action": {
-		"default_icon": "img/blue.png"
-	},
-	"background": {
-		"scripts": ["src/lib/jquery-3.3.1.min.js", "src/background.js"]
-	}
+    "manifest_version": 2,
+    "name": "Easy VAddy Proxy Crawling",
+    "version": "1.0",
+    "icons": {
+        "48": "icons/blue_48.png",
+        "96": "icons/blue_96.png"
+    },
+    "browser_action": {
+        "default_title": "Easy VAddy Proxy Crawling",
+        "default_icon": {
+            "19": "icons/blue_19.png",
+            "38": "icons/blue_38.png"
+        }
+    },
+    "background": {
+        "scripts": ["src/lib/jquery-3.3.1.min.js", "src/background.js"]
+    },
+    "options_ui": {
+        "page": "options/options.html"
+    },
+    "permissions": ["https://*/*", "storage"]
 }
