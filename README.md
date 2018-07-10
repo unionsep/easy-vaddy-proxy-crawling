@@ -1,3 +1,3 @@
-# vaddy-easy-proxy-crawling
+# Easy VAddy Proxy Crawling
 
-- for FireFox WebExtension
+Easy VAddy Proxy Crawling :: Add-ons for Firefox https://addons.mozilla.org/ja/firefox/addon/easy-vaddy-proxy-crawling/
