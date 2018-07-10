@@ -16,7 +16,6 @@ $(() => {
                 url: url,
                 success: (data) => {
                     if (data.trim() ==  localStorage['verify-code'].trim()) {
-                        console.log('success: ' + data);
                         createNotification('BEGIN', 'Success', url);
                         if (1 == localStorage['auto-access']) {
                             var scanUrl = getProxyURL();
@@ -26,13 +25,11 @@ $(() => {
                         }
                         setIconRed();
                     } else {
-                        console.log('failed: ' + data);
                         createNotification('BEGIN', 'Failed', url);
                         setIconBlue();
                     }
                 },
                 error: (xhr, status, error) => {
-                    console.log('error');
                     createNotification('BEGIN', 'Error', url);
                     setIconBlue();
                 },
@@ -49,17 +46,14 @@ $(() => {
                 url: url,
                 success: (data) => {
                     if (data.trim() == localStorage['verify-code'].trim()) {
-                        console.log('success: ' + data);
                         createNotification('COMMIT', 'Success', url);
                         setIconBlue();
                     } else {
-                        console.log('failed: ' + data);
                         createNotification('COMMIT', 'Failed', url);
                         setIconRed();
                     }
                 },
                 error: (xhr, status, error) => {
-                    console.log('error');
                     createNotification('COMMIT', 'Error', url);
                     setIconRed();
                 },
