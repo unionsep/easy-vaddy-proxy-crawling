@@ -19,5 +19,5 @@
     "options_ui": {
         "page": "options/options.html"
     },
-    "permissions": ["https://*/*", "storage"]
+    "permissions": ["https://*/*", "tabs", "storage", "notifications"]
 }
