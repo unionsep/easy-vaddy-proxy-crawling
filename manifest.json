@@ -1,6 +1,8 @@
 {
     "manifest_version": 2,
     "name": "Easy VAddy Proxy Crawling",
+    "description": "Easy operation of VAddy Proxy Crawling",
+    "homepage_url": "https://github.com/unionsep/easy-vaddy-proxy-crawling",
     "version": "1.0",
     "icons": {
         "48": "icons/blue_48.png",
@@ -14,7 +16,7 @@
         }
     },
     "background": {
-        "scripts": ["src/lib/jquery-3.3.1.min.js", "src/background.js"]
+        "scripts": ["libs/jquery-3.3.1.min.js", "src/background.js"]
     },
     "options_ui": {
         "page": "options/options.html"

@@ -3,15 +3,36 @@
     <head>
         <meta charset="utf-8">
     </head>
-    <body>
+    <body class="bg-light">
         <form>
-            <label>Server Name　<input type="text" id="server-name"></label><br>
-            <label>Verification Code　<input type="text" id="verify-code"></label><br>
-            <label>Basic User　<input type="text" id="basic-user"></label><br>
-            <label>Basic Password　<input type="text" id="basic-pass"></label><br>
-            <button type="submit" id="save">Save</button>
-            <button type="submit" id="reset">Reset</button>
+            <div class="form-group">
+                <label for="server-name">Server Name</label>
+                <input type="text" class="form-control" id="server-name" placeholder="https://...">
+            </div>
+            <div class="form-group">
+                <label for="verify-code">Verification Code</label>
+                <input type="text" class="form-control" id="verify-code" placeholder="any character">
+            </div>
+            <div class="form-group">
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="auto-access">
+                    <label class="form-check-label" for="auto-access">Auto Access Server</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="basic-user">Basic User Name ( optional )</label>
+                <input type="text" class="form-control" id="basic-user" placeholder="basic user">
+            </div>
+            <div class="form-group">
+                <label for="basic-pass">Basic Password ( optional )</label>
+                <input type="text" class="form-control" id="basic-pass" placeholder="basic user">
+            </div>
+            <button type="button" id="save" class="btn btn-primary">Save</button>
+            <button type="button" id="reset" class="btn btn-warning">Reset</button>
         </form>
+        <link href="../libs/bootstrap-4.1.1-dist/css/bootstrap.min.css" rel="stylesheet">
+        <script src="../libs/jquery-3.3.1.min.js"></script>
+        
         <script src="options.js"></script>
     </body>
 </html>

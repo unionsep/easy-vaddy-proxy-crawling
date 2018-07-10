@@ -8,16 +8,22 @@ $(() => {
     browser.browserAction.onClicked.addListener(() => {
         if (localStorage['icon'] == iconBlue) {
             var url = getProxyURL('begin');
+            if (!url) {
+                createNotification('BEGIN', 'Error', 'check Server Name or Verification Code');
+                return;
+            }
             $.ajax({
                 url: url,
                 success: (data) => {
                     if (data.trim() ==  localStorage['verify-code'].trim()) {
                         console.log('success: ' + data);
                         createNotification('BEGIN', 'Success', url);
-                        var scanUrl = getProxyURL();
-                        browser.tabs.create({
-                            url: browser.runtime.getURL(scanUrl)
-                        });
+                        if (1 == localStorage['auto-access']) {
+                            var scanUrl = getProxyURL();
+                            browser.tabs.create({
+                                url: browser.runtime.getURL(scanUrl)
+                            });
+                        }
                         setIconRed();
                     } else {
                         console.log('failed: ' + data);
@@ -77,13 +83,13 @@ $(() => {
         browser.browserAction.setIcon({path: iconBlue});
     }
 
-    function createNotification(proc, status, url) {
+    function createNotification(proc, status, message) {
         var title = status + ' ' + proc + ' VAddy Proxy Crawl';
         browser.notifications.create({
             'type': 'basic',
             'iconUrl': browser.extension.getURL('icons/blue_48.png'),
             'title': title,
-            'message': url
+            'message': message
         });
     }
 
