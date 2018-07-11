@@ -3,7 +3,7 @@
     "name": "Easy VAddy Proxy Crawling",
     "description": "Easy operation of VAddy Proxy Crawling",
     "homepage_url": "https://github.com/unionsep/easy-vaddy-proxy-crawling",
-    "version": "1.0",
+    "version": "1.1",
     "icons": {
         "48": "icons/blue_48.png",
         "96": "icons/blue_96.png"
