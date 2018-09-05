@@ -1,64 +1,94 @@
-function restoreOptions(e) {
-    var serverName = localStorage.getItem('server-name');
-    var verifiCode = localStorage.getItem('verify-code');
-    var autoAccess = localStorage.getItem('auto-access');
-    var basicUser = localStorage.getItem('basic-user');
-    var basicPass = localStorage.getItem('basic-pass');
+$(() => {
+    let setNotification = (proc, status, message) => {
+        var title = status + ' ' + proc + ' VAddy Proxy Crawl Options';
+        browser.notifications.create({
+            'type': 'basic',
+            'iconUrl': browser.extension.getURL('icons/blue_48.png'),
+            'title': title,
+            'message': message
+        });
+    };
 
-    document.querySelector('#server-name').value = serverName;
-    document.querySelector('#verify-code').value = verifiCode;
-    if (1 == autoAccess) {
-        document.querySelector('#auto-access').checked = 'checked';
-    } else {
-        document.querySelector('#auto-access').checked = '';
-    }
-    document.querySelector('#basic-user').value = basicUser;
-    document.querySelector('#basic-pass').value = basicPass;
-}
-
-function saveOptions(e) {
-    e.preventDefault();
-    var serverName = document.querySelector('#server-name').value;
-    var verifyCode = document.querySelector('#verify-code').value;
-    if (!serverName || !verifyCode) {
-        window.alert('require Server Name and Verification Code');
-    } else {
-        localStorage.setItem('server-name', serverName);
-        localStorage.setItem('verify-code', verifyCode);
-        console.log(document.querySelector('#auto-access').checked);
-        if (document.querySelector('#auto-access').checked) {
-            localStorage.setItem('auto-access', 1);
-        } else {
-            localStorage.setItem('auto-access', 0);
+    $(document).ready(event => {
+        var serverNames = localStorage.getItem('server-names');
+        var elemServerNames = $('.server-names');
+        if  (null != serverNames) {
+            serverNames = JSON.parse(serverNames);
+            var idx = 0;
+            for (let server in serverNames) {
+                elemServerNames.eq(idx).find('input[type="text"]').val(server);
+                elemServerNames.eq(idx).find('label input[type="radio"]').prop('checked', serverNames[server]);
+                idx++;
+            }
         }
-        var basicUser = document.querySelector('#basic-user').value;
-        var basicPass = document.querySelector('#basic-pass').value;
-        if (!basicUser || !basicPass) {
-            localStorage.removeItem('basic-user');
-            localStorage.removeItem('basic-pass');
-        } else {
-            localStorage.setItem('basic-user', basicUser);
-            localStorage.setItem('basic-pass', basicPass);
+        if (0 >= elemServerNames.find('label input[type="radio"]:checked').length) {
+            elemServerNames.eq(0).find('label input[type="radio"]').prop('checked', true);
         }
-    }
-}
-
-function resetOptions(e) {
-    e.preventDefault();
-    browser.storage.local.set({
-        'server-name': null,
-        'verify-code': null,
-        'auto-access': 0,
-        'basic-user': null,
-        'basic-pass': null
+        $('#verify-code').val(localStorage.getItem('verify-code'));
+        $('#auto-access').prop('checked', localStorage.getItem('auto-access'));
+        $('#basic-user').val(localStorage.getItem('basic-user'));
+        $('#basic-pass').val(localStorage.getItem('basic-pass'));
     });
-    document.querySelector('#server-name').value = '';
-    document.querySelector('#verify-code').value = '';
-    document.querySelector('#auto-access').checked = '';
-    document.querySelector('#basic-user').value = '';
-    document.querySelector('#basic-pass').value = '';
-}
 
-document.addEventListener('DOMContentLoaded', restoreOptions);
-document.querySelector('#save').addEventListener('click', saveOptions);
-document.querySelector('#reset').addEventListener('click', resetOptions);
+    $('#save').on('click', event => {
+        event.preventDefault();
+        var serverNames = {};
+        $('.server-names').each((idx, elem) => {
+            var text = $(elem).find('input[type="text"]').val();
+            var radio = $(elem).find('label input[type="radio"]').prop('checked');
+            if ('' == text) {
+                if (true == radio) {
+                    setNotification('Option Save', 'Failed', 'Please fill in ' + (idx + 1) + 'th Server Name .');
+                    return false;
+                } else {
+                    return true;
+                }
+            } else {
+                serverNames[text] = radio;
+            }
+        });
+
+        var verifyCode = $('#verify-code').val();
+
+        if (null == verifyCode || 0 > Object.keys(serverNames).length) {
+            setNotification('Option Save', 'Failed', 'Require Server Name and Verification Code .');
+        } else {
+            localStorage.setItem('server-names', JSON.stringify(serverNames));
+            localStorage.setItem('verify-code', verifyCode);
+            if ($('#auto-access').prop('checked')) {
+                localStorage.setItem('auto-access', true);
+            } else {
+                localStorage.setItem('auto-access', false);
+            }
+            var basicUser = $('#basic-user').val();
+            var basicPass = $('#basic-pass').val();
+            if (!basicUser || !basicPass) {
+                localStorage.removeItem('basic-user');
+                localStorage.removeItem('basic-pass');
+            } else {
+                localStorage.setItem('basic-user', basicUser);
+                localStorage.setItem('basic-pass', basicPass);
+            }
+
+            setNotification('Option Save', 'Success', 'Saved VAddy Proxy Crawl Options .');
+        }
+    });
+
+    $('#reset').on('click', event => {
+        event.preventDefault();
+        localStorage.removeItem('server-names');
+        localStorage.removeItem('verify-code');
+        localStorage.removeItem('auto-access');
+        localStorage.removeItem('basic-user');
+        localStorage.removeItem('basic-pass');
+        $('.server-names').each((idx, elem) => {
+            $(elem).find('input[type="text"]').val('');
+            $(elem).find('label input[type="radio"]').prop('checked', false);
+        });
+        $('#verify-code').val('');
+        $('#auto-access').prop('checked', false);
+        $('#basic-user').val('');
+        $('#basic-pass').val('');
+        $('.server-names').eq(0).find('label input[type="radio"]').prop('checked', true);
+    });
+});
