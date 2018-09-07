@@ -1,6 +1,5 @@
 $(() => {
     let setNotification = (proc, status, message) => {
-        var title = status + ' ' + proc + ' VAddy Proxy Crawl Options';
         browser.notifications.create({
             'type': 'basic',
             'iconUrl': browser.extension.getURL('icons/blue_48.png'),
