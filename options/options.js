@@ -4,7 +4,7 @@ $(() => {
         browser.notifications.create({
             'type': 'basic',
             'iconUrl': browser.extension.getURL('icons/blue_48.png'),
-            'title': title,
+            'title': browser.i18n.getMessage('notification_title', [status, proc]),
             'message': message
         });
     };
@@ -14,17 +14,21 @@ $(() => {
         var elemServerNames = $('.server-names');
         if  (null != serverNames) {
             serverNames = JSON.parse(serverNames);
-            var idx = 0;
             for (let server in serverNames) {
-                elemServerNames.eq(idx).find('input[type="text"]').val(server);
-                elemServerNames.eq(idx).find('label input[type="radio"]').prop('checked', serverNames[server]);
-                idx++;
+                if (null != serverNames[server]) {
+                    elemServerNames.eq(server).find('label input[type="radio"]').prop('checked', serverNames[server][0]);
+                    elemServerNames.eq(server).find('input[type="text"]').val(serverNames[server][1]);
+                } else {
+                    elemServerNames.eq(server).find('label input[type="radio"]').prop('checked', '');
+                    elemServerNames.eq(server).find('input[type="text"]').val('');
+                }
             }
         }
         if (0 >= elemServerNames.find('label input[type="radio"]:checked').length) {
             elemServerNames.eq(0).find('label input[type="radio"]').prop('checked', true);
         }
         $('#verify-code').val(localStorage.getItem('verify-code'));
+        $('#version').val(localStorage.getItem('version'));
         $('#auto-access').prop('checked', localStorage.getItem('auto-access'));
         $('#basic-user').val(localStorage.getItem('basic-user'));
         $('#basic-pass').val(localStorage.getItem('basic-pass'));
@@ -33,28 +37,36 @@ $(() => {
     $('#save').on('click', event => {
         event.preventDefault();
         var serverNames = {};
+        var serverCount = 0;
+        var invalidServerNum = 0;
         $('.server-names').each((idx, elem) => {
             var text = $(elem).find('input[type="text"]').val();
             var radio = $(elem).find('label input[type="radio"]').prop('checked');
             if ('' == text) {
                 if (true == radio) {
-                    setNotification('Option Save', 'Failed', 'Please fill in ' + (idx + 1) + 'th Server Name .');
+                    invalidServerNum = idx + 1;
                     return false;
                 } else {
-                    return true;
+                    serverNames[idx] = null;
                 }
             } else {
-                serverNames[text] = radio;
+                serverNames[idx] = [radio, text];
+                serverCount++;
             }
         });
 
         var verifyCode = $('#verify-code').val();
-
-        if (null == verifyCode || 0 > Object.keys(serverNames).length) {
-            setNotification('Option Save', 'Failed', 'Require Server Name and Verification Code .');
+        
+        if ('' == verifyCode) {
+            setNotification('Option Save', 'Failed', browser.i18n.getMessage('msg_failed_require_verification'));
+        } else if (0 < invalidServerNum) {
+            setNotification('Option Save', 'Failed', browser.i18n.getMessage('msg_failed_invalid_fqdn_pattern', invalidServerNum));
+        } else if (0 >= serverCount) {
+            setNotification('Option Save', 'Failed', browser.i18n.getMessage('msg_failed_require_fqdn'));
         } else {
             localStorage.setItem('server-names', JSON.stringify(serverNames));
             localStorage.setItem('verify-code', verifyCode);
+            localStorage.setItem('version', $('#version').val());
             if ($('#auto-access').prop('checked')) {
                 localStorage.setItem('auto-access', true);
             } else {
@@ -69,8 +81,7 @@ $(() => {
                 localStorage.setItem('basic-user', basicUser);
                 localStorage.setItem('basic-pass', basicPass);
             }
-
-            setNotification('Option Save', 'Success', 'Saved VAddy Proxy Crawl Options .');
+            setNotification('Option Save', 'Success', browser.i18n.getMessage('msg_success_save_option'));
         }
     });
 

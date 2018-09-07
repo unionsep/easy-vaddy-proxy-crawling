@@ -6,7 +6,7 @@
     <body class="bg-light">
         <form>
             <div class="form-group">
-                <label for="server-name">Server Name</label>
+                <label for="server-name">__MSG_txt_server__</label>
                 <div class="form-inline server-names">
                     <label class="checkbox-inline"><input type="radio" name="primary-server"></label>&nbsp;
                     <input type="text" class="form-control" placeholder="https://...">
@@ -27,31 +27,38 @@
                     <label class="checkbox-inline"><input type="radio" name="primary-server"></label>&nbsp;
                     <input type="text" class="form-control" placeholder="https://...">
                 </div>
-            </div>
-            <div class="form-group">
-                <label for="verify-code">Verification Code</label>
-                <input type="text" class="form-control" id="verify-code" placeholder="any character">
             </div>
             <div class="form-group">
                 <div class="form-check">
                     <input type="checkbox" class="form-check-input" id="auto-access">
-                    <label class="form-check-label" for="auto-access">Auto Access Server</label>
+                    <label class="form-check-label" for="auto-access">__MSG_txt_auto_accsess__</label>
                 </div>
             </div>
             <div class="form-group">
-                <label for="basic-user">Basic User Name ( optional )</label>
+                <label for="verify-code">__MSG_txt_verification__</label>
+                <input type="text" class="form-control" id="verify-code" placeholder="any character">
+            </div>
+            <div class="form-group">
+                <label for="version">__MSG_txt_version__</label>
+                <select class="custom-select" id="version">
+                    <option value="2">V2</option>
+                    <option value="1">V1</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="basic-user">__MSG_txt_basic_user__</label>
                 <input type="text" class="form-control" id="basic-user" placeholder="basic user">
             </div>
             <div class="form-group">
-                <label for="basic-pass">Basic Password ( optional )</label>
+                <label for="basic-pass">__MSG_txt_basic_pass__</label>
                 <input type="text" class="form-control" id="basic-pass" placeholder="basic user">
             </div>
-            <button type="button" id="save" class="btn btn-primary">Save</button>
-            <button type="button" id="reset" class="btn btn-warning">Reset</button>
+            <button type="button" id="save" class="btn btn-primary">__MSG_btn_save__</button>
+            <button type="button" id="reset" class="btn btn-warning">__MSG_btn_reset__</button>
         </form>
         <link href="../libs/bootstrap-4.1.1-dist/css/bootstrap.min.css" rel="stylesheet">
         <script src="../libs/jquery-3.3.1.min.js"></script>
-        
         <script src="options.js"></script>
+        <script src="../libs/localize.js"></script>
     </body>
 </html>

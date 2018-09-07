@@ -1,0 +1,60 @@
+{
+    "ext_name": {
+        "message": "Easy VAddy Proxy Crawling"
+    },
+    "ext_desc": {
+        "message": "VAddyのシナリオ作成におけるクロール作業の補助をします"
+    },
+    "notification_title": {
+        "message": "$status$ $proc$ VAddy Proxy Crawl",
+        "placeholders": {
+            "status": {
+                "content": "$1"
+            },
+            "proc": {
+                "content": "$2"
+            }
+        }
+    },
+    "msg_success_save_option": {
+        "message": "オプションを保存しました"
+    },
+    "msg_failed_invalid_fqdn_pattern": {
+        "message": "$num$ 番目のFQDNを入力してください",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "msg_failed_require_verification": {
+        "message": "Verificationを入力してください"
+    },
+    "msg_failed_require_fqdn": {
+        "message": "検査対象サーバーを入力してください"
+    },
+    "txt_server": {
+        "message": "検査対象サーバー"
+    },
+    "txt_verification": {
+        "message": "Verification"
+    },
+    "txt_version": {
+        "message": "バージョン"
+    },
+    "txt_auto_accsess": {
+        "message": "自動アクセス"
+    },
+    "txt_basic_user": {
+        "message": "basic ユーザー（オプション）"
+    },
+    "txt_basic_pass": {
+        "message": "basic パスワード（オプション）"
+    },
+    "btn_save": {
+        "message": "保存"
+    },
+    "btn_reset": {
+        "message": "リセット"
+    }
+}

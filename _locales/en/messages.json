@@ -1,0 +1,60 @@
+{
+    "ext_name": {
+        "message": "Easy VAddy Proxy Crawling"
+    },
+    "ext_desc": {
+        "message": "Easy operation of VAddy Proxy Crawling"
+    },
+    "notification_title": {
+        "message": "$status$ $proc$ VAddy Proxy Crawl",
+        "placeholders": {
+            "status": {
+                "content": "$1"
+            },
+            "proc": {
+                "content": "$2"
+            }
+        }
+    },
+    "msg_success_save_option": {
+        "message": "Saved VAddy Proxy Crawl Options ."
+    },
+    "msg_failed_invalid_fqdn_pattern": {
+        "message": "Please fill in $num$ th Server Name .",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "msg_failed_require_verification": {
+        "message": "Please fill in Verification ."
+    },
+    "msg_failed_require_fqdn": {
+        "message": "Please fill in FQDS ."
+    },
+    "txt_server": {
+        "message": "Server FQDN or IPv4 address"
+    },
+    "txt_verification": {
+        "message": "Verification"
+    },
+    "txt_version": {
+        "message": "Version"
+    },
+    "txt_auto_accsess": {
+        "message": "Auto Access Server"
+    },
+    "txt_basic_user": {
+        "message": "Basic User Name ( optional )"
+    },
+    "txt_basic_pass": {
+        "message": "Basic Password ( optional )"
+    },
+    "btn_save": {
+        "message": "Save"
+    },
+    "btn_reset": {
+        "message": "Reset"
+    }
+}
