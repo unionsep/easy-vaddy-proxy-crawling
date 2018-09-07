@@ -1,14 +1,15 @@
 $(() => {
     const iconBlue = 'icons/blue_19.png';
     const iconRed = 'icons/red_19.png';
-    if (localStorage['icon'] === undefined) {
-        localStorage['icon'] = iconBlue;
-        browser.browserAction.setIcon({path: iconBlue});
+
+    if (localStorage.getItem('icon') === undefined) {
+        setIconBlue();
     }
+
     browser.browserAction.onClicked.addListener(() => {
         if (localStorage['icon'] == iconBlue) {
-            var url = getProxyURL('begin');
-            if (!url) {
+            var urls = getProxyURL('begin');
+            if (0 >= urls.length) {
                 createNotification('BEGIN', 'Error', 'check Server Name or Verification Code');
                 return;
             }
@@ -18,7 +19,7 @@ $(() => {
                     if (data.trim() ==  localStorage['verify-code'].trim()) {
                         createNotification('BEGIN', 'Success', url);
                         if (1 == localStorage['auto-access']) {
-                            var scanUrl = getProxyURL();
+                            var scanUrl = getAutoAccessUrl();
                             browser.tabs.create({
                                 url: browser.runtime.getURL(scanUrl)
                             });
@@ -67,17 +68,17 @@ $(() => {
         }
     });
 
-    function setIconRed() {
+    let setIconRed = () => {
         localStorage['icon'] = iconRed;
         browser.browserAction.setIcon({path: iconRed});
-    }
+    };
 
-    function setIconBlue() {
+    let setIconBlue = () => {
         localStorage['icon'] = iconBlue;
         browser.browserAction.setIcon({path: iconBlue});
-    }
+    };
 
-    function createNotification(proc, status, message) {
+    let createNotification = (proc, status, message) => {
         var title = status + ' ' + proc + ' VAddy Proxy Crawl';
         browser.notifications.create({
             'type': 'basic',
@@ -85,24 +86,43 @@ $(() => {
             'title': title,
             'message': message
         });
-    }
+    };
 
-    function getBasicCredentials() {
+    let getBasicCredentials = () => {
         if (localStorage['basic-user'] !== undefined && localStorage['basic-pass'] !== undefined) {
             return window.btoa(localStorage['basic-user'] + ':' + localStorage['basic-pass']);
         }
-    }
+    };
 
-    function getProxyURL(operation) {
-        if (localStorage['server-name'] !== undefined && localStorage['verify-code'] !== undefined) {
-            var url = localStorage['server-name'].trim() + '/vaddy-' + localStorage['verify-code'].trim() + '.html';
-            if ('begin' == operation) {
-                return url + '?action=begin';
-            } else if ('commit' == operation) {
-                return url + '?action=commit';
-            } else {
-                return localStorage['server-name'].trim();
+    let getAutoAccessUrl = () => {
+        var serverNames = localStorage.getItem('server-names');
+        var verifyCode = localStorage.getItem('verify-code');
+        var url = null;
+        if (undefined !== serverNames && undefined !== verifyCode) {
+            for (let server in serverNames) {
+                if (serverNames[server][0]) {
+                    url = serverNames[server].trim();
+                    break;
+                }
             }
         }
+        return url;
+    };
+
+    let getProxyURL = (operation) => {
+        var urls = [];
+        if (localStorage['server-names'] !== undefined && localStorage['verify-code'] !== undefined) {
+            var serverNames = JSON.parse(localStorage.getItem('server-names'));
+            for (let server in serverNames) {
+                if (null != serverNames[server]) {
+                    if ('begin' == operation) {
+                        urls.push(serverNames[server][1].trim() + '/vaddy-' + localStorage['verify-code'].trim() + '.html?action=begin');
+                    } else if ('commit' == operation) {
+                        urls.push(serverNames[server][1].trim() + '/vaddy-' + localStorage['verify-code'].trim() + '.html?action=commit');
+                    }
+                }
+            }
+        }
+        return urls;
     }
 });
