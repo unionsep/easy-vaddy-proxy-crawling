@@ -33,8 +33,17 @@
     "msg_failed_require_fqdn": {
         "message": "Please fill in FQDS ."
     },
+    "msg_failed_require_fqdn_verify_code": {
+        "message": "Check Server Name or Verification Code Setting ."
+    },
+    "msg_failed_version_project_id": {
+        "message": "If select V2, Please fill in ProjectID ."
+    },
     "txt_server": {
         "message": "Server FQDN or IPv4 address"
+    },
+    "txt_project_id": {
+        "message": "ProjectID"
     },
     "txt_verification": {
         "message": "Verification"

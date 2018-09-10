@@ -33,8 +33,17 @@
     "msg_failed_require_fqdn": {
         "message": "検査対象サーバーを入力してください"
     },
+    "msg_failed_require_fqdn_verify_code": {
+        "message": "検査対象サーバー及び、Verificationを入力してください"
+    },
+    "msg_failed_version_project_id": {
+        "message": "V2を指定した場合、ProjectIDを入力してください"
+    },
     "txt_server": {
         "message": "検査対象サーバー"
+    },
+    "txt_project_id": {
+        "message": "ProjectID"
     },
     "txt_verification": {
         "message": "Verification"
