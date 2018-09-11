@@ -77,6 +77,12 @@
     "txt_basic_pass": {
         "message": "Basic Password ( optional )"
     },
+    "txt_begin": {
+        "message": "BEGIN"
+    },
+    "txt_commit": {
+        "message": "COMIT"
+    },
     "btn_save": {
         "message": "Save"
     },

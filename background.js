@@ -14,6 +14,26 @@ $(() => {
         }
     }
 
+    let getAutoAccessUrl = () => {
+        var serverNames = localStorage.getItem('server-names')
+        var verifyCode = localStorage.getItem('verify-code')
+        var url = null
+        if (null != serverNames && null != verifyCode) {
+            serverNames = JSON.parse(serverNames)
+            for (let server in serverNames) {
+                if (serverNames[server][0]) {
+                    url = serverNames[server][1].trim()
+                    break
+                }
+            }
+        }
+        if (url) {
+            browser.tabs.create({
+                url: browser.runtime.getURL(url)
+            })
+        }
+    }
+
     let getCrawlURLStr = (operation) => {
         if (PROC_BEGIN !== operation && PROC_COMMIT !== operation) {
             return []
@@ -62,7 +82,13 @@ $(() => {
         var ajax = $.get({
             url:url,
             cache: false,
-            timeout: 2000
+            timeout: 2000,
+            beforeSend: function(xhr) {
+                var credentials = getBasicCredentials();
+                if (credentials) {
+                    xhr.setRequestHeader('Authorization', 'Basic ' + credentials)
+                }
+            }
         }).done(function(data, status, ajax) {
             defer.resolveWith(this, arguments)
         }).fail(function(data, status, ajax) {
@@ -101,8 +127,11 @@ $(() => {
                         }
                     })
                     if (isSuccess) {
-                        setNotification('BEGIN', 'Error', browser.i18n.getMessage('msg_success_access_fqdn', [proc]))
+                        setNotification('BEGIN', 'Success', browser.i18n.getMessage('msg_success_access_fqdn', [proc]))
                         changeIcon(PROC_BEGIN)
+                        if ('true' == localStorage.getItem('auto-access')) {
+                            getAutoAccessUrl()
+                        }
                     } else {
                         setNotification('BEGIN', 'Error', browser.i18n.getMessage('msg_failed_access_fqdn', [proc]))
                         changeIcon(PROC_COMMIT)
@@ -131,7 +160,7 @@ $(() => {
                         }
                     })
                     if (isSuccess) {
-                        setNotification('COMMIT', 'Error', browser.i18n.getMessage('msg_success_access_fqdn', [proc]))
+                        setNotification('COMMIT', 'Success', browser.i18n.getMessage('msg_success_access_fqdn', [proc]))
                         changeIcon(PROC_COMMIT)
                     } else {
                         setNotification('COMMIT', 'Error', browser.i18n.getMessage('msg_failed_access_fqdn', [proc]))
@@ -143,20 +172,5 @@ $(() => {
                 })
             }
         }
-    });
-
-    let getAutoAccessUrl = () => {
-        var serverNames = localStorage.getItem('server-names')
-        var verifyCode = localStorage.getItem('verify-code')
-        var url = null
-        if (undefined !== serverNames && undefined !== verifyCode) {
-            for (let server in serverNames) {
-                if (serverNames[server][0]) {
-                    url = serverNames[server].trim()
-                    break
-                }
-            }
-        }
-        return url
-    };
+    })
 })
