@@ -36,6 +36,23 @@
     "msg_failed_require_fqdn_verify_code": {
         "message": "Check Server Name or Verification Code Setting ."
     },
+
+    "msg_failed_access_fqdn": {
+        "message": "Access Failed to $proc$ FQDN URL",
+        "placeholders": {
+            "proc": {
+                "content": "$1"
+            }
+        }
+    },
+    "msg_success_access_fqdn": {
+        "message": "Access Succeeded to $proc$ FQDN URL",
+        "placeholders": {
+            "proc": {
+                "content": "$1"
+            }
+        }
+    },
     "msg_failed_version_project_id": {
         "message": "If select V2, Please fill in ProjectID ."
     },
@@ -46,7 +63,7 @@
         "message": "ProjectID"
     },
     "txt_verification": {
-        "message": "Verification"
+        "message": "Verification Code"
     },
     "txt_version": {
         "message": "Version"

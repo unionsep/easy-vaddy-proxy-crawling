@@ -34,7 +34,23 @@
         "message": "検査対象サーバーを入力してください"
     },
     "msg_failed_require_fqdn_verify_code": {
-        "message": "検査対象サーバー及び、Verificationを入力してください"
+        "message": "検査対象サーバー及び、Verificationを設定してください"
+    },
+    "msg_failed_access_fqdn": {
+        "message": "クロール$proc$URLにアクセスできませんでした",
+        "placeholders": {
+            "proc": {
+                "content": "$1"
+            }
+        }
+    },
+    "msg_success_access_fqdn": {
+        "message": "クロール$proc$URLにアクセスしました",
+        "placeholders": {
+            "proc": {
+                "content": "$1"
+            }
+        }
     },
     "msg_failed_version_project_id": {
         "message": "V2を指定した場合、ProjectIDを入力してください"
@@ -46,7 +62,7 @@
         "message": "ProjectID"
     },
     "txt_verification": {
-        "message": "Verification"
+        "message": "Verification Code"
     },
     "txt_version": {
         "message": "バージョン"
@@ -59,6 +75,12 @@
     },
     "txt_basic_pass": {
         "message": "basic パスワード（オプション）"
+    },
+    "txt_begin": {
+        "message": "開始"
+    },
+    "txt_commit": {
+        "message": "終了"
     },
     "btn_save": {
         "message": "保存"

@@ -1,10 +1,10 @@
 $(() => {
-    const PROC_BEGIN = 'begin';
-    const PROC_COMMIT = 'commit';
-    const ICON_REC = 'icons/red_19.png';
-    const ICON_UNREC = 'icons/blue_19.png';
-    const VERSION_V1 = 1;
-    const VERSION_V2 = 2;
+    const PROC_BEGIN = 'begin'
+    const PROC_COMMIT = 'commit'
+    const ICON_REC = 'icons/red_19.png'
+    const ICON_UNREC = 'icons/blue_19.png'
+    const VERSION_V1 = 1
+    const VERSION_V2 = 2
 
     let getBasicCredentials = () => {
         var basicUser = localStorage.getItem('basic-user')
@@ -14,7 +14,7 @@ $(() => {
         }
     }
 
-    let getCrawlingURL = (operation) => {
+    let getCrawlURLStr = (operation) => {
         if (PROC_BEGIN !== operation && PROC_COMMIT !== operation) {
             return []
         }
@@ -57,34 +57,18 @@ $(() => {
         }
     };
 
-    let accessCrawlURL = (proc, url) => {
-        var isAccessed = false;
-        $.ajax({
-            url: url,
-            async: false,
-            success: (data) => {
-                if (data.trim() == localStorage.getItem('verify-code')) {
-                    isAccessed = true;
-                } else {
-                    isAccessed = false
-                }
-            },
-            error: (xhr, status, error) => {
-                isAccessed = false
-            },
-            beforeSend: (xhr) => {
-                var credentials = getBasicCredentials();
-                if (credentials) {
-                    xhr.setRequestHeader('Authorization', 'Basic ' + credentials);
-                }
-            }
+    let getCrawlURL = function(url) {
+        var defer = new $.Deferred()
+        var ajax = $.get({
+            url:url,
+            cache: false,
+            timeout: 2000
+        }).done(function(data, status, ajax) {
+            defer.resolveWith(this, arguments)
+        }).fail(function(data, status, ajax) {
+            defer.resolveWith(this, arguments)
         })
-        if (PROC_BEGIN == proc) {
-            isAccessed ? changeIcon(PROC_BEGIN) : changeIcon(PROC_COMMIT)
-        } else {
-            isAccessed ? changeIcon(PROC_COMMIT) : changeIcon(PROC_BEGIN)
-        }
-        return isAccessed
+        return $.extend({}, ajax, defer.promise())
     }
 
     if (null == localStorage.getItem('icon')) {
@@ -99,50 +83,80 @@ $(() => {
 
     browser.browserAction.onClicked.addListener(() => {
         if (ICON_UNREC === localStorage.getItem('icon')) {
-            var urls = getCrawlingURL(PROC_BEGIN)
-            console.log(urls)
+            var urls = getCrawlURLStr(PROC_BEGIN)
+            var proc = browser.i18n.getMessage('txt_begin')
             if (0 >= urls.length) {
                 setNotification('BEGIN', 'Error', browser.i18n.getMessage('msg_failed_require_fqdn_verify_code'))
             } else {
-                var isAccessed = true
+                var xhr = []
                 $.each(urls, (idx, url) => {
-                    if (!accessCrawlURL(PROC_BEGIN, url)) {
-                        isAccessed = false
-                        return false
-                    }
+                    xhr.push(getCrawlURL(url))
                 })
-                isAccessed ? changeIcon(PROC_BEGIN) : changeIcon(PROC_COMMIT)
+                $.when.apply($, xhr).done(function() {
+                    var isSuccess = true;
+                    $.each(arguments, (idx, arg) => {
+                        if (arg[1] != 'success' || arg[0].trim() != localStorage.getItem('verify-code')) {
+                            isSuccess = false
+                            return false;
+                        }
+                    })
+                    if (isSuccess) {
+                        setNotification('BEGIN', 'Error', browser.i18n.getMessage('msg_success_access_fqdn', [proc]))
+                        changeIcon(PROC_BEGIN)
+                    } else {
+                        setNotification('BEGIN', 'Error', browser.i18n.getMessage('msg_failed_access_fqdn', [proc]))
+                        changeIcon(PROC_COMMIT)
+                    }
+                }).fail(function() {
+                    setNotification('BEGIN', 'Error', browser.i18n.getMessage('msg_failed_access_fqdn', [proc]))
+                    changeIcon(PROC_COMMIT)
+                })
             }
         } else {
-            var urls = getCrawlingURL(PROC_COMMIT)
-            console.log(urls)
+            var urls = getCrawlURLStr(PROC_COMMIT)
+            var proc = browser.i18n.getMessage('txt_commit')
             if (0 >= urls.length) {
                 setNotification('COMMIT', 'Error', browser.i18n.getMessage('msg_failed_require_fqdn_verify_code'))
             } else {
-                var isAccessed = true
+                var xhr = []
                 $.each(urls, (idx, url) => {
-                    if (!accessCrawlURL(PROC_COMMIT, url)) {
-                        isAccessed = false;
-                        return false;
-                    }
+                    xhr.push(getCrawlURL(url))
                 })
-                isAccessed ? changeIcon(PROC_COMMIT) : changeIcon(PROC_BEGIN);
+                $.when.apply($, xhr).done(function() {
+                    var isSuccess = true;
+                    $.each(arguments, (idx, arg) => {
+                        if (arg[1] != 'success' || arg[0].trim() != localStorage.getItem('verify-code')) {
+                            isSuccess = false
+                            return false;
+                        }
+                    })
+                    if (isSuccess) {
+                        setNotification('COMMIT', 'Error', browser.i18n.getMessage('msg_success_access_fqdn', [proc]))
+                        changeIcon(PROC_COMMIT)
+                    } else {
+                        setNotification('COMMIT', 'Error', browser.i18n.getMessage('msg_failed_access_fqdn', [proc]))
+                        changeIcon(PROC_BEGIN)
+                    }
+                }).fail(function() {
+                    setNotification('COMMIT', 'Error', browser.i18n.getMessage('msg_failed_access_fqdn', [proc]))
+                    changeIcon(PROC_BEGIN)
+                })
             }
         }
     });
 
     let getAutoAccessUrl = () => {
-        var serverNames = localStorage.getItem('server-names');
-        var verifyCode = localStorage.getItem('verify-code');
-        var url = null;
+        var serverNames = localStorage.getItem('server-names')
+        var verifyCode = localStorage.getItem('verify-code')
+        var url = null
         if (undefined !== serverNames && undefined !== verifyCode) {
             for (let server in serverNames) {
                 if (serverNames[server][0]) {
-                    url = serverNames[server].trim();
-                    break;
+                    url = serverNames[server].trim()
+                    break
                 }
             }
         }
-        return url;
+        return url
     };
 })
