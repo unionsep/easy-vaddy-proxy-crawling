@@ -64,8 +64,8 @@ $(() => {
             'iconUrl': browser.extension.getURL('icons/blue_48.png'),
             'title': browser.i18n.getMessage('notification_title', [status, proc]),
             'message': message
-        });
-    };
+        })
+    }
 
     let changeIcon = (proc) => {
         if (PROC_BEGIN === proc) {
@@ -75,7 +75,7 @@ $(() => {
             localStorage.setItem('icon', ICON_UNREC)
             browser.browserAction.setIcon({path: ICON_UNREC})
         }
-    };
+    }
 
     let getCrawlURL = function(url) {
         var defer = new $.Deferred()
@@ -84,7 +84,7 @@ $(() => {
             cache: false,
             timeout: 2000,
             beforeSend: function(xhr) {
-                var credentials = getBasicCredentials();
+                var credentials = getBasicCredentials()
                 if (credentials) {
                     xhr.setRequestHeader('Authorization', 'Basic ' + credentials)
                 }
@@ -119,11 +119,11 @@ $(() => {
                     xhr.push(getCrawlURL(url))
                 })
                 $.when.apply($, xhr).done(function() {
-                    var isSuccess = true;
+                    var isSuccess = true
                     $.each(arguments, (idx, arg) => {
                         if (arg[1] != 'success' || arg[0].trim() != localStorage.getItem('verify-code')) {
                             isSuccess = false
-                            return false;
+                            return false
                         }
                     })
                     if (isSuccess) {
@@ -152,11 +152,11 @@ $(() => {
                     xhr.push(getCrawlURL(url))
                 })
                 $.when.apply($, xhr).done(function() {
-                    var isSuccess = true;
+                    var isSuccess = true
                     $.each(arguments, (idx, arg) => {
                         if (arg[1] != 'success' || arg[0].trim() != localStorage.getItem('verify-code')) {
                             isSuccess = false
-                            return false;
+                            return false
                         }
                     })
                     if (isSuccess) {

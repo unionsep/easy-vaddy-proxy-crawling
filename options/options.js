@@ -1,6 +1,6 @@
 $(() => {
-    const VERSION_V1 = 1;
-    const VERSION_V2 = 2;
+    const VERSION_V1 = 1
+    const VERSION_V2 = 2
 
     let setNotification = (proc, status, message) => {
         browser.notifications.create({
@@ -48,25 +48,25 @@ $(() => {
     })
 
     $('#save').on('click', event => {
-        event.preventDefault();
-        var serverNames = {};
-        var serverCount = 0;
-        var invalidServerNum = 0;
+        event.preventDefault()
+        var serverNames = {}
+        var serverCount = 0
+        var invalidServerNum = 0
         $('.server-names').each((idx, elem) => {
-            var text = $(elem).find('input[type="text"]').val();
-            var radio = $(elem).find('label input[type="radio"]').prop('checked');
+            var text = $(elem).find('input[type="text"]').val()
+            var radio = $(elem).find('label input[type="radio"]').prop('checked')
             if ('' == text) {
                 if (true == radio) {
-                    invalidServerNum = idx + 1;
-                    return false;
+                    invalidServerNum = idx + 1
+                    return false
                 } else {
-                    serverNames[idx] = null;
+                    serverNames[idx] = null
                 }
             } else {
-                serverNames[idx] = [radio, text];
-                serverCount++;
+                serverNames[idx] = [radio, text]
+                serverCount++
             }
-        });
+        })
 
         var verifyCode = $('#verify-code').val()
         var version = $('#version').val()
@@ -106,7 +106,7 @@ $(() => {
             }
             setNotification('Option Save', 'Success', browser.i18n.getMessage('msg_success_save_option'))
         }
-    });
+    })
 
     $('#reset').on('click', event => {
         event.preventDefault()
@@ -129,5 +129,5 @@ $(() => {
         $('#basic-user').val('')
         $('#basic-pass').val('')
         $('.server-names').eq(0).find('label input[type="radio"]').prop('checked', true)
-    });
-});
+    })
+})
