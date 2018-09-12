@@ -1,7 +1,7 @@
 $(() => {
     const PROC_BEGIN = 'begin'
     const PROC_COMMIT = 'commit'
-    const ICON_UNREC = 'icons/blue_19.png'
+    const ICON_UNREC = 'icons/unrec_19.png'
 
     $.commons.iconInitialize()
 
