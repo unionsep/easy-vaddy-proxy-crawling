@@ -1,18 +1,11 @@
-$(() => {
+$(function() {
     const VERSION_V1 = 1
     const VERSION_V2 = 2
-
-    let setNotification = (proc, status, message) => {
-        browser.notifications.create({
-            'type': 'basic',
-            'iconUrl': browser.extension.getURL('icons/blue_48.png'),
-            'title': browser.i18n.getMessage('notification_title', [status, proc]),
-            'message': message
-        })
-    }
-
+   
     $(document).ready(event => {
+        $.commons.localize()
         var serverNames = localStorage.getItem('server-names')
+        
         var elemServerNames = $('.server-names')
         if  (null != serverNames) {
             serverNames = JSON.parse(serverNames)
@@ -40,14 +33,15 @@ $(() => {
         $('#auto-access').prop('checked', localStorage.getItem('auto-access'))
         $('#basic-user').val(localStorage.getItem('basic-user'))
         $('#basic-pass').val(localStorage.getItem('basic-pass'))
+        
     })
 
-    $('#version').on('change', event => {
+    $(document).on('change', '#version', event => {
         var $this = $(event.currentTarget)
         $this.val() == 2 ? $('#project-id').prop('disabled', false) : $('#project-id').prop('disabled', true)
     })
 
-    $('#save').on('click', event => {
+    $(document).on('click', '#save', event => {
         event.preventDefault()
         var serverNames = {}
         var serverCount = 0
@@ -73,13 +67,13 @@ $(() => {
         var projectID = $('#project-id').val()
         
         if ('' == verifyCode) {
-            setNotification('Option Save', 'Failed', browser.i18n.getMessage('msg_failed_require_verification'))
+            $.commons.createNotification('Option Save', 'Failed', browser.i18n.getMessage('msg_failed_require_verification'))
         } else if (0 < invalidServerNum) {
-            setNotification('Option Save', 'Failed', browser.i18n.getMessage('msg_failed_invalid_fqdn_pattern', invalidServerNum))
+            $.commons.createNotification('Option Save', 'Failed', browser.i18n.getMessage('msg_failed_invalid_fqdn_pattern', invalidServerNum))
         } else if (0 >= serverCount) {
-            setNotification('Option Save', 'Failed', browser.i18n.getMessage('msg_failed_require_fqdn'))
+            $.commons.createNotification('Option Save', 'Failed', browser.i18n.getMessage('msg_failed_require_fqdn'))
         } else if (2 == version && '' == projectID) {
-            setNotification('Option Save', 'Failed', browser.i18n.getMessage('msg_failed_version_project_id'))
+            $.commons.createNotification('Option Save', 'Failed', browser.i18n.getMessage('msg_failed_version_project_id'))
         } else {
             localStorage.setItem('server-names', JSON.stringify(serverNames))
             localStorage.setItem('verify-code', verifyCode)
@@ -104,11 +98,11 @@ $(() => {
                 localStorage.setItem('basic-user', basicUser)
                 localStorage.setItem('basic-pass', basicPass)
             }
-            setNotification('Option Save', 'Success', browser.i18n.getMessage('msg_success_save_option'))
+            $.commons.createNotification('Option Save', 'Success', browser.i18n.getMessage('msg_success_save_option'))
         }
     })
 
-    $('#reset').on('click', event => {
+    $(document).on('click', '#reset', event => {
         event.preventDefault()
         localStorage.removeItem('server-names')
         localStorage.removeItem('verify-code')
