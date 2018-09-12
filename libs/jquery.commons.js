@@ -1,6 +1,6 @@
 ;(function($){
-    const ICON_REC = 'icons/red_19.png';
-    const ICON_UNREC = 'icons/blue_19.png';
+    const ICON_REC = 'icons/rec_19.png';
+    const ICON_UNREC = 'icons/unrec_19.png';
     const PROC_BEGIN = 'begin';
     const PROC_COMMIT = 'commit';
     const VERSION_V2 = 2;
@@ -46,7 +46,7 @@
     $.commons.createNotification = function (proc, status, message) {
         browser.notifications.create({
             'type': 'basic',
-            'iconUrl': browser.extension.getURL('icons/blue_48.png'),
+            'iconUrl': browser.extension.getURL('icons/unrec_48.png'),
             'title': browser.i18n.getMessage('notification_title', [status, proc]),
             'message': message
         });
