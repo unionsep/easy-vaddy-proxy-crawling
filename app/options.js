@@ -1,5 +1,4 @@
 $(function() {
-    const VERSION_V1 = 1
     const VERSION_V2 = 2
    
     $(document).ready(event => {
@@ -123,5 +122,13 @@ $(function() {
         $('#basic-user').val('')
         $('#basic-pass').val('')
         $('.server-names').eq(0).find('label input[type="radio"]').prop('checked', true)
+    })
+
+    $(document).on('click', '#crawl-begin', event => {
+        $.commons.crawlBegin();
+    })
+
+    $(document).on('click', '#crawl-commit', event => {
+        $.commons.crawlCommit();
     })
 })

@@ -88,5 +88,11 @@
     },
     "btn_reset": {
         "message": "Reset"
+    },
+    "btn_crawl_begin": {
+        "message": "Crawl Begin"
+    },
+    "btn_crawl_commit": {
+        "message": "Crawl Commit"
     }
 }

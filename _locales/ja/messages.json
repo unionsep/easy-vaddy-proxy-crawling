@@ -87,5 +87,11 @@
     },
     "btn_reset": {
         "message": "リセット"
+    },
+    "btn_crawl_begin": {
+        "message": "クロール開始"
+    },
+    "btn_crawl_commit": {
+        "message": "クロール終了"
     }
 }
