@@ -3,7 +3,7 @@
     "name": "__MSG_ext_name__",
     "description": "__MSG_ext_desc__",
     "homepage_url": "https://github.com/unionsep/easy-vaddy-proxy-crawling",
-    "version": "2.0",
+    "version": "2.1",
     "icons": {
         "48": "icons/unrec_48.png",
         "96": "icons/unrec_96.png"
