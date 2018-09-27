@@ -13,3 +13,5 @@ Add-ons for Firefox https://addons.mozilla.org/ja/firefox/addon/easy-vaddy-proxy
 
 ## Author
 [unionsep](https://github.com/unionsep)
+
+![Easy VAddy Proxy Crawling](./icons/unrec_400.png)
